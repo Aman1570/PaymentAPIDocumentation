@@ -270,6 +270,7 @@ Console.WriteLine(response.Content);
         "PrevTranRef": null
     }
 }
+```
 
 #### Error Response Model
 ```
