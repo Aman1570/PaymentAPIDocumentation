@@ -5,9 +5,18 @@ Welcome to TelyPay's Payment API documentation. This guide is intended for devel
 The API base URL is: https://payment.telypay.com
 
 ## Pre-requisites
-Before you start integration, you need to have your API key which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key from the developer menu.
+Before you start integration, you need to have your API key and Meerchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Meerchant ID from the developer menu.
 
 ## API Endpoints
+Below are the endpoints you can utilize.
+ 
+| Enpoint                   | URL | Request Type | Header Params | Body Params |
+| ------------------------- | --------------- | ----------------- | ----------------- | ----------------- |
+| Initiate a payment request | /payment/request | POST | ApiKey | merchantId (fixed merchant Id of your registered bussiness), 
+orderId (Unique order id), 
+orderDescription (Order Description), amount, callback (Your URL where you will get transaction information) |
+
+
 ### 1. Payment Request (POST)
 To initiate a payment request, use the following API call:
 
@@ -16,6 +25,7 @@ curl --location --globoff 'BaseURL/payment/request' \
 --header 'ApiKey: <your-api-key>' \
 --header 'Content-Type: application/json' \
 --data '{    
+  "merchantId": 0000000000,
   "orderId":"your unique order ref",
   "orderDescription":"This is a description",
   "amount": 1.5,
