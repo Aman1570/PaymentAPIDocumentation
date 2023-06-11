@@ -13,7 +13,7 @@ To initiate a payment request, you need to call below endpoint. If request initi
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order description) <br> - __amount__ (Order amount in OMR) <br> - __callback__ (Callback url where we will POST transaction information) |
+| /v1/payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order description) <br> - __amount__ (Order amount in OMR) <br> - __callback__ (Callback url where we will POST transaction information) |
 
 #### Sample Request
 ```
@@ -30,28 +30,33 @@ curl --location --globoff 'BaseURL/payment/request' \
 ```
 
 ### Sample Request (C#)
+
+If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+
 ```
-var options = new RestClientOptions("https://payment.telypay.net")
-{
-  MaxTimeout = -1,
-};
-var client = new RestClient(options);
-var request = new RestRequest("/v1/payment/request", Method.Post);
-request.AddHeader("ApiKey", "TP-3b12d8a966c58010c3b725b17d12b133");
-request.AddHeader("Content-Type", "application/json");
-var body = @"{
+string _body = @"{
 " + "\n" +
-@"    ""merchantId"": 2430932281,
+@"    ""merchantId"": 0000000000,
 " + "\n" +
 @"    ""orderId"": ""12345678"",
 " + "\n" +
 @"    ""orderDescription"": ""This is a description"",
 " + "\n" +
-@"    ""amount"": 10.000,
+@"    ""amount"": 2.55,
 " + "\n" +
-@"    ""callback"": ""https://google.com""
+@"    ""callback"": ""https://yourcompany.com/callback""
 " + "\n" +
 @"}";
+
+var options = new RestClientOptions("<<API base URL>>")
+{
+  MaxTimeout = -1,
+};
+var client = new RestClient(options);
+var request = new RestRequest("/v1/payment/request", Method.Post);
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+request.AddHeader("Content-Type", "application/json");
+var body = _body;
 request.AddStringBody(body, DataFormat.Json);
 RestResponse response = await client.ExecuteAsync(request);
 Console.WriteLine(response.Content);
