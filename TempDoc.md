@@ -9,11 +9,11 @@ Before you start integration, you need to have your API key and Merchant ID whic
 
 ## EndPoints
 ### 1. Payment Request (POST)
-To initiate a payment request, you need to call below API, if request initiate successflly, there will be redirectUrl in the response to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url.
+To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide redirectUrl to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url automatically.
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order Description) <br> - __amount__ (Order amount (OMR)) <br> - __callback__ (Your callback url where we will POST transaction information) |
+| /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order description) <br> - __amount__ (Order amount in OMR) <br> - __callback__ (Callback url where we will POST transaction information) |
 
 #### Sample Request
 ```
@@ -28,6 +28,35 @@ curl --location --globoff 'BaseURL/payment/request' \
   "callback": "https://yourcompany.com/callback"
 }'
 ```
+
+### Sample Request (C#)
+```
+var options = new RestClientOptions("https://payment.telypay.net")
+{
+  MaxTimeout = -1,
+};
+var client = new RestClient(options);
+var request = new RestRequest("/v1/payment/request", Method.Post);
+request.AddHeader("ApiKey", "TP-3b12d8a966c58010c3b725b17d12b133");
+request.AddHeader("Content-Type", "application/json");
+var body = @"{
+" + "\n" +
+@"    ""merchantId"": 2430932281,
+" + "\n" +
+@"    ""orderId"": ""12345678"",
+" + "\n" +
+@"    ""orderDescription"": ""This is a description"",
+" + "\n" +
+@"    ""amount"": 10.000,
+" + "\n" +
+@"    ""callback"": ""https://google.com""
+" + "\n" +
+@"}";
+request.AddStringBody(body, DataFormat.Json);
+RestResponse response = await client.ExecuteAsync(request);
+Console.WriteLine(response.Content);
+```
+
 
 #### Payment Request Response
 ```
