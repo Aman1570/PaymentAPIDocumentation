@@ -16,9 +16,9 @@ __`POST:`__ `/v1/payment/request`
 
 ##### Parameters
 
-| Parameter | Parameter Type | Description | Sample Value |
+| Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| 'ApiKey' | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | orderId | body | Unique order id | 2254857641 |
