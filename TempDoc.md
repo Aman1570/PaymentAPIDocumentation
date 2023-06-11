@@ -8,8 +8,10 @@ The API base URL is: https://payment.telypay.com
 Before you start integration, you need to have your API key and Merchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Merchant ID from the developer menu.
 
 ## EndPoints
-### 1. Payment Request
+### 1. Payment Request API
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
+
+`POST`: `/v1/payment/request`
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -29,7 +31,7 @@ curl --location --globoff '<<API base URL>>/payment/request' \
 }'
 ```
 
-### Sample Request (C#)
+#### Sample Request (C#)
 
 If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
 
@@ -107,7 +109,7 @@ All possible `PaymentStatus` are explaind at the end of document.
 }
 ```
 
-### 2. Refund Request
+### 2. Refund Request API
 To initiate a refund API details are below. We will create a new transaction with type "Refund"
 and with tha same model of transaction a response will be sent back.
 
@@ -127,7 +129,7 @@ curl --location --globoff '<<API base URL>>/refund/request' \
 }'
 ```
 
-### Sample Request (C#)
+#### Sample Request (C#)
 
 If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
 ```
@@ -184,7 +186,7 @@ Console.WriteLine(response.Content);
 ```
 
 ## Payment Staus
- Below are the possbile status for any transaction i.e., Request, Refund
+ Below are the possbile statuses for any transaction i.e., `Request`, `Refund`
 
 | PaymentStatus | Description |
 | --------------| -------------- |
@@ -197,7 +199,7 @@ Console.WriteLine(response.Content);
 | X | Expired |
 
 ## Test Card
-You can use this card to test the payment gateway
+We are providing a test VISA Card as below to test the integration with TelyPay payment gateway.
 
 | Card Number | CVV | Month | Year |
 | --------------- | --------------- | --------------- | --------------- |
