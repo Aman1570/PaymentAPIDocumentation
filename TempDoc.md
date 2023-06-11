@@ -9,7 +9,7 @@ Before you start integration, you need to have your API key and Merchant ID whic
 
 
 ### 1. Payment Request (POST)
-To initiate a payment request, details of API are below:
+To initiate a payment request, you need to call below API, if request initiate successflly, there will be redirectUrl in the response to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url.
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -29,7 +29,7 @@ curl --location --globoff 'BaseURL/payment/request' \
 }'
 ```
 
-#### Sample Response
+#### Payment Request Response
 ```
 {
     "message": "Success",
@@ -46,9 +46,9 @@ curl --location --globoff 'BaseURL/payment/request' \
 }
 ```
 
-You need to redirect the user on __redirectUrl__ as received in response which is actualy the payment page, once redirected, we will __POST__ the transaction information (model as below) to your callback Url
+Once you got the response, you need to redirect the user on __redirectUrl__ as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your callback Url
 
-#### Transaction Sample
+#### Transaction Response
 ```
 {
     "TranRef": "TST2313501591268",
