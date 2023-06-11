@@ -1,4 +1,4 @@
-# TelyPay Payment API Documentation
+# TelyPay Payment API Documentation V1
 ## Introduction
 Welcome to TelyPay's Payment API documentation. This guide is intended for developers who are looking to integrate TelyPay's payment gateway into their applications. TelyPay offers a straightforward, robust and secure method for processing transactions.
 
@@ -9,7 +9,7 @@ Before you start integration, you need to have your API key and Merchant ID whic
 
 ## EndPoints
 ### 1. Payment Request
-To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide redirectUrl to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url automatically.
+To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -74,7 +74,7 @@ Console.WriteLine(response.Content);
 }
 ```
 
-Once you got the response, you need to redirect the user on __redirectUrl__ as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your callback Url. Your call back url must be a POST url.
+Once you got the response, you need to redirect the user on `redirectUrl` as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your `callback` Url. Your call back url must be a POST url.
 
 #### Transaction Response
 ```
@@ -95,7 +95,7 @@ Once you got the response, you need to redirect the user on __redirectUrl__ as r
 }
 ```
 
-All possible PaymentStatus are explaind at the end of document.
+All possible `PaymentStatus` are explaind at the end of document.
 
 
 #### Error Response Model
@@ -113,7 +113,7 @@ and with tha same model of transaction a response will be sent back.
 
 | URL | Type | Header | Body |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| /v1/refund/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __transRef__ (Unique transaction referance which need to refund) <br> - __amount__ (Amount that need to refund) |
+| /v1/refund/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __transRef__ (Unique transaction referance which need to refund) <br> - __amount__ (Amount that need to refund in OMR) |
 
 #### Sample Request (curl)
 ```
@@ -182,6 +182,19 @@ Console.WriteLine(response.Content);
     "body": null
 }
 ```
+
+## Payment Staus
+ Below are the possbile status for any transaction i.e., Request, Refund
+
+| PaymentStatus | Description |
+| --------------| -------------- |
+| A | Authorised |
+| H | Hold (Authorised but on hold for further anti-fraud review) |
+| P | Pending (for refunds) |
+| V | Voided |
+| E | Error |
+| D | Declined |
+| X | Expired |
 
 ## Test Card
 You can use this card to test the payment gateway
