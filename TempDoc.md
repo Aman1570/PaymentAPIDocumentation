@@ -5,7 +5,7 @@ Welcome to TelyPay's Payment API documentation. This guide is intended for devel
 The API base URL is: https://payment.telypay.com
 
 ## Pre-requisites
-Before you start integration, you need to have your API key and Meerchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Meerchant ID from the developer menu.
+Before you start integration, you need to have your API key and Merchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Merchant ID from the developer menu.
 
 
 ### 1. Payment Request (POST)
@@ -15,8 +15,7 @@ To initiate a payment request, details of API are below:
 | --------------- | ----------------- | ----------------- | ----------------- |
 | /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order Description) <br> - __amount__ (Order amount (OMR)) <br> - __callback__ (Your callback url where we will POST transaction information) |
 
-Sample Request
-
+#### Sample Request
 ```
 curl --location --globoff 'BaseURL/payment/request' \
 --header 'ApiKey: <your-api-key>' \
@@ -30,7 +29,7 @@ curl --location --globoff 'BaseURL/payment/request' \
 }'
 ```
 
-Sample Response
+#### Sample Response
 ```
 {
     "message": "Success",
@@ -49,8 +48,7 @@ Sample Response
 
 You need to redirect the user on __redirectUrl__ as received in response which is actualy the payment page, once redirected, we will __POST__ the transaction information (model as below) to your callback Url
 
-Transaction Sample
-
+#### Transaction Sample
 ```
 {
     "TranRef": "TST2313501591268",
@@ -66,19 +64,10 @@ Transaction Sample
 ```
 
 #### Error Response Model
-##### e.g.1
 ```
 {
     "message": "Duplicated Request",
     "result": 409,
-    "body": null
-}
-```
-##### e.g.2
-```
-{
-    "message": "Unauthorised",
-    "result": 401,
     "body": null
 }
 ```
