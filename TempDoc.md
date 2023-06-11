@@ -15,7 +15,7 @@ To initiate a payment request, you need to call below endpoint. If request initi
 | --------------- | ----------------- | ----------------- | ----------------- |
 | /v1/payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order description) <br> - __amount__ (Order amount in OMR) <br> - __callback__ (Callback url where we will POST transaction information) |
 
-#### Sample Request
+#### Sample Request (curl)
 ```
 curl --location --globoff 'BaseURL/payment/request' \
 --header 'ApiKey: <your-api-key>' \
@@ -34,19 +34,13 @@ curl --location --globoff 'BaseURL/payment/request' \
 If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
 
 ```
-string _body = @"{
-" + "\n" +
-@"    ""merchantId"": 0000000000,
-" + "\n" +
-@"    ""orderId"": ""12345678"",
-" + "\n" +
-@"    ""orderDescription"": ""This is a description"",
-" + "\n" +
-@"    ""amount"": 2.55,
-" + "\n" +
-@"    ""callback"": ""https://yourcompany.com/callback""
-" + "\n" +
-@"}";
+string _body = @"{" 
++ @"    ""merchantId"": 0000000000,
++ @"    ""orderId"": ""12345678"",
++ @"    ""orderDescription"": ""This is a description"",
++ @"    ""amount"": 2.55,
++ @"    ""callback"": ""https://yourcompany.com/callback""
++ @"}";
 
 var options = new RestClientOptions("<<API base URL>>")
 {
@@ -73,7 +67,7 @@ Console.WriteLine(response.Content);
         "orderId": "your unique order ref",
         "orderDescription": "Ths is a description",
         "amount": "1.500",
-        "callback": "https://google.com](https://yourcompany.com/callback",
+        "callback": "https://yourcompany.com/callback",
         "redirectUrl": "https://secure-oman.paytabs.com/payment/wr/5E99A88F82E4116AC8D9E3762BBB199033920195EC0083435DAA8123",
         "trace": "PMNT0505.646A6D95.000036QQ"
     }
