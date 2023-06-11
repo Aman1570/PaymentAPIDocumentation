@@ -11,12 +11,12 @@ Before you start integration, you need to have your API key and Merchant ID whic
 We are providing different endpoints to communicate with our payment gateway.
 |  | Endpoint | URL |
 | --------------- | ----------------- | ----------------- |
-| 1  | Payment Request | ''/v1/payment/request'' |
-| 2  | Payment Refund | ''/v1/refund/request'' |
-| 3  | Get Transaction by Id | ''/v1/transaction'' |
-| 4  | Get Transsaction List | ''/v1/Transaction/list'' |
+| 1  | Payment Request | __`POST:`__ `/v1/payment/request` |
+| 2  | Payment Refund | __`POST:`__ `/v1/refund/request` |
+| 3  | Get Transaction by Id | __`GET:`__ `/v1/transaction` |
+| 4  | Get Transsaction List | __`GET:`__ `/v1/transaction/list` |
 
-### 1. Payment Request API
+### 1. Payment Request
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
 
 ##### URL
@@ -83,7 +83,7 @@ Console.WriteLine(response.Content);
     "message": "Success",
     "result": 200,
     "body": {
-        "tranRef": "TST2314101601117",
+        "tranRef": "TST2313501591268",
         "orderId": "your unique order ref",
         "orderDescription": "Ths is a description",
         "amount": "1.500",
@@ -131,9 +131,19 @@ All possible `PaymentStatus` are explaind at the end of document.
 To initiate a refund API details are below. We will create a new transaction with type "Refund"
 and with tha same model of transaction a response will be sent back.
 
-| URL | Type | Header | Body |
+##### URL
+__`POST:`__ `/v1/refund/request`
+
+##### Parameters
+
+| Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| /v1/refund/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __transRef__ (Unique transaction referance which need to refund) <br> - __amount__ (Amount that need to refund in OMR) |
+| 'ApiKey' | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| Content-Type | header | Content type | `application/json` |
+| merchantId | body | Registered business Merchant Id | 999366903 |
+| transRef | body | Unique transaction referance which need to refund | TST2313501591268 |
+| amount | body | Order amount in OMR | 2.456 |
+
 
 #### Sample Request (curl)
 ```
@@ -171,7 +181,7 @@ RestResponse response = await client.ExecuteAsync(request);
 Console.WriteLine(response.Content);
 ```
 
-#### Successful Refund Response
+#### Refund Response
 ```
 {
     "message": "Success",
