@@ -11,6 +11,7 @@ Before you start integration, you need to have your API key and Merchant ID whic
 ### 1. Payment Request API
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
 
+##### URL
 __`POST:`__ `/v1/payment/request`
 
 | URL | Type | Header | Body |
