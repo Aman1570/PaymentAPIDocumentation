@@ -12,9 +12,7 @@ Below are the endpoints you can utilize.
  
 | Enpoint                   | URL | Request Type | Header Params | Body Params |
 | ------------------------- | --------------- | ----------------- | ----------------- | ----------------- |
-| Initiate a payment request | /payment/request | POST | ApiKey | merchantId (fixed merchant Id of your registered bussiness), 
-orderId (Unique order id), 
-orderDescription (Order Description), amount, callback (Your URL where you will get transaction information) |
+| Initiate a payment request | /payment/request | POST | ApiKey | merchantId (fixed merchant Id of your registered bussiness), <br> orderId (Unique order id), <br> orderDescription (Order Description),<br> amount, <br>callback (Your URL where you will get transaction information) |
 
 
 ### 1. Payment Request (POST)
