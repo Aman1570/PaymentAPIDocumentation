@@ -26,7 +26,7 @@ __`POST:`__ `/v1/payment/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | orderId | body | Unique order id | 2254857641 |
@@ -138,7 +138,7 @@ __`POST:`__ `/v1/refund/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | transRef | body | Unique transaction referance which need to refund | TST2313501591268 |
@@ -223,7 +223,7 @@ __`GET:`__ `/v1/transaction`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | query string | Registered business Merchant Id | 999366903 |
 | transRef |  query string | Unique transaction referance | TST2313501591268 |
@@ -291,7 +291,7 @@ __`GET:`__ `/v1/transaction/list`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | query string | Registered business Merchant Id | 999366903 |
 | type |  query string | Transaction type i.e., Sale,Refund. You can provide both comma separated | TST2313501591268 |
@@ -301,7 +301,7 @@ __`GET:`__ `/v1/transaction/list`
 
 #### Sample Request (curl)
 ```
-curl --location '<<API base URL>>/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale&maxsize=50&minsize=5&minpage=1' \
+curl --location '<<API base URL>>/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale&maxsize=3&minsize=1&minpage=1' \
 --header 'ApiKey: XXXXXXXXXXXXXXXXXXXXXX'
 ```
 
@@ -314,7 +314,7 @@ var options = new RestClientOptions("<<API base URL>>")
   MaxTimeout = -1,
 };
 var client = new RestClient(options);
-var request = new RestRequest("/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale,refund&maxsize=50&minsize=5&minpage=1", Method.Get);
+var request = new RestRequest("/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale,refund&maxsize=3&minsize=1&minpage=1", Method.Get);
 request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXX");
 RestResponse response = await client.ExecuteAsync(request);
 Console.WriteLine(response.Content);
