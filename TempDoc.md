@@ -14,9 +14,18 @@ To initiate a payment request, you need to call below endpoint. If request initi
 ##### URL
 __`POST:`__ `/v1/payment/request`
 
-| URL | Type | Header | Body |
+##### Parameters
+
+| Parameter | Parameter Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| /v1/payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order description) <br> - __amount__ (Order amount in OMR) <br> - __callback__ (Callback url where we will POST transaction information) |
+| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| Content-Type | header | Content type | `application/json` |
+| merchantId | body | Registered business Merchant Id | 999366903 |
+| orderId | body | Unique order id | 2254857641 |
+| orderDescription | body | Order description | - |
+| amount | body | Order amount in OMR | 2.456 |
+| callback | body | Callback url where we will POST transaction information | https://xyzCompany.com/callback |
+
 
 #### Sample Request (curl)
 ```
