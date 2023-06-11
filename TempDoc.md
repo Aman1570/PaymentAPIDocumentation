@@ -10,9 +10,9 @@ Before you start integration, you need to have your API key and Meerchant ID whi
 ## API Endpoints
 Below are the endpoints you can utilize.
  
-| Enpoint                   | URL | Request Type | Header Params | Body Params |
+| Enpoint                   | URL | Type | Header | Body |
 | ------------------------- | --------------- | ----------------- | ----------------- | ----------------- |
-| Initiate a payment request | /payment/request | POST | ApiKey | - __merchantId__ (fixed merchant Id of your registered bussiness), <br> - __orderId__ (Unique order id), <br> - __orderDescription__ (Order Description),<br> - __amount__, <br> - __callback__ (Your URL where you will get transaction information) |
+| Initiate a payment request | /payment/request | POST | - __ApiKey__ (registered business api key) - __Content-Type__ (application/json) (registered business api key) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order Description) <br> - __amount__ (Order amount (OMR)) <br> - __callback__ (Your callback url where we will post transaction information) |
 
 
 ### 1. Payment Request (POST)
