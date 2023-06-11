@@ -8,6 +8,14 @@ The API base URL is: https://payment.telypay.com
 Before you start integration, you need to have your API key and Merchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Merchant ID from the developer menu.
 
 ## EndPoints
+We are providing different endpoints to communicate with our payment gateway.
+|  | Endpoint | URL |
+| --------------- | ----------------- | ----------------- |
+| 1  | Payment Request | ''/v1/payment/request'' |
+| 2  | Payment Refund | ''/v1/refund/request'' |
+| 3  | Get Transaction by Id | ''/v1/transaction'' |
+| 4  | Get Transsaction List | ''/v1/Transaction/list'' |
+
 ### 1. Payment Request API
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
 
@@ -24,7 +32,7 @@ __`POST:`__ `/v1/payment/request`
 | orderId | body | Unique order id | 2254857641 |
 | orderDescription | body | Order description | - |
 | amount | body | Order amount in OMR | 2.456 |
-| callback | body | Callback url where we will POST transaction information | https://xyzCompany.com/callback |
+| callback | body | Callback url where we will POST transaction information | http://XYZCompany.com/callback |
 
 
 #### Sample Request (curl)
