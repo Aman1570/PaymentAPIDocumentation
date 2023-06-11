@@ -410,5 +410,8 @@ We are providing a test VISA Card as below to test the integration with TelyPay 
 | 4111 1111 1111 1111 | 123 | Any | Any |
 
 
+## Contact Us
+For any inquiries or assistance regarding our API, we are dedicated to providing prompt and reliable support. Our team of experts is readily available to address your questions, offer technical guidance, and help troubleshoot any issues you may encounter. Please feel free to reach out to our dedicated support contact via email at support@telypay.com. We value your feedback and are committed to ensuring a seamless and successful integration of our API into your applications. Your satisfaction is our priority, and we strive to deliver exceptional support to empower your development journey.
+
 
 Happy Coding :)
