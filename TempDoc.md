@@ -7,16 +7,15 @@ The API base URL is: https://payment.telypay.com
 ## Pre-requisites
 Before you start integration, you need to have your API key and Meerchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Meerchant ID from the developer menu.
 
-## API Endpoints
-Below are the endpoints you can utilize.
- 
-| Enpoint                   | URL | Type | Header | Body |
-| ------------------------- | --------------- | ----------------- | ----------------- | ----------------- |
-| Initiate a payment request | /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) (registered business api key) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order Description) <br> - __amount__ (Order amount (OMR)) <br> - __callback__ (Your callback url where we will post transaction information) |
-
 
 ### 1. Payment Request (POST)
-To initiate a payment request, use the following API call:
+To initiate a payment request, details of API are below:
+
+| URL | Type | Header | Body |
+| --------------- | ----------------- | ----------------- | ----------------- |
+| /payment/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __orderId__ (Unique order id) <br> - __orderDescription__ (Order Description) <br> - __amount__ (Order amount (OMR)) <br> - __callback__ (Your callback url where we will POST transaction information) |
+
+Sample Request
 
 ```
 curl --location --globoff 'BaseURL/payment/request' \
@@ -31,7 +30,7 @@ curl --location --globoff 'BaseURL/payment/request' \
 }'
 ```
 
-#### Successful Response Model
+Sample Response
 ```
 {
     "message": "Success",
@@ -47,9 +46,10 @@ curl --location --globoff 'BaseURL/payment/request' \
     }
 }
 ```
-After you redirect your user to the redirectUrl which is the payment page, we will POST the transaction model to your callback Url
 
-#### Transaction Model
+You need to redirect the user on __redirectUrl__ as received in response which is actualy the payment page, once redirected, we will __POST__ the transaction information (model as below) to your callback Url
+
+Transaction Sample
 
 ```
 {
