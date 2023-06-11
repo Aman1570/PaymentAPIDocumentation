@@ -8,7 +8,7 @@ The API base URL is: https://payment.telypay.com
 Before you start integration, you need to have your API key and Merchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Merchant ID from the developer menu.
 
 ## EndPoints
-### 1. Payment Request `POST`
+### 1. Payment Request
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide redirectUrl to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url automatically.
 
 | URL | Type | Header | Body |
@@ -17,11 +17,11 @@ To initiate a payment request, you need to call below endpoint. If request initi
 
 #### Sample Request (curl)
 ```
-curl --location --globoff 'BaseURL/payment/request' \
+curl --location --globoff '<<API base URL>>/payment/request' \
 --header 'ApiKey: <your-api-key>' \
 --header 'Content-Type: application/json' \
 --data '{    
-  "merchantId": 0000000000,
+  "merchantId": XXXXXXXXXX,
   "orderId":"your unique order ref",
   "orderDescription":"This is a description",
   "amount": 1.5,
@@ -35,7 +35,7 @@ If you are integrating in C#, You need to install __RestSharp__ nuget packege in
 
 ```
 string _body = @"{" 
-+ @"    ""merchantId"": 0000000000,
++ @"    ""merchantId"": XXXXXXXXXX,
 + @"    ""orderId"": ""12345678"",
 + @"    ""orderDescription"": ""This is a description"",
 + @"    ""amount"": 2.55,
@@ -107,21 +107,49 @@ All possible PaymentStatus are explaind at the end of document.
 }
 ```
 
-### 2. Refund Request `POST`
-To initiate a refund, use the following API call:
+### 2. Refund Request
+To initiate a refund API details are below. We will create a new transaction with type "Refund"
+and with tha same model of transaction a response will be sent back.
 
+| URL | Type | Header | Body |
+| --------------- | ----------------- | ----------------- | ----------------- |
+| /v1/refund/request | POST | - __ApiKey__ (registered business api key) <br> - __Content-Type__ (application/json) | - __merchantId__ (registered business merchant Id) <br> - __transRef__ (Unique transaction referance which need to refund) <br> - __amount__ (Amount that need to refund) |
+
+#### Sample Request (curl)
 ```
-curl --location --globoff 'BaseURL/refund/request' \
+curl --location --globoff '<<API base URL>>/refund/request' \
 --header 'ApiKey: <your-api-key>' \
 --header 'Content-Type: application/json' \
 --data '{
-    "transRef":"TST2314101600392",
+    "merchantId": XXXXXXXXXX,
+    "transRef":"TST2313501591268",
     "amount": 1
 }'
 ```
 
-We will create a new transaction with type "Refund"
-and we will send back the new transaction model as well.
+### Sample Request (C#)
+
+If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+```
+string _body = @"{" 
++ @"    ""merchantId"": XXXXXXXXXX,
++ @"    ""transRef"": ""TST2314101600392"",
++ @"    ""amount"": 2.55
++ @"}";
+
+var options = new RestClientOptions("<<API base URL>>")
+{
+  MaxTimeout = -1,
+};
+var client = new RestClient(options);
+var request = new RestRequest("/v1/Refund/request", Method.Post);
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+request.AddHeader("Content-Type", "application/json");
+var body = _body
+request.AddStringBody(body, DataFormat.Json);
+RestResponse response = await client.ExecuteAsync(request);
+Console.WriteLine(response.Content);
+```
 
 #### Successful Refund Response
 ```
@@ -129,15 +157,19 @@ and we will send back the new transaction model as well.
     "message": "Success",
     "result": 200,
     "body": {
-        "tranRef": "TST2314101600398",
-        "tranType": "Refund",
-        "orderId": "22435634534",
-        "description": "This is a description",
-        "currency": "OMR",
-        "amount": "8.500",
-        "trace": "PMNT0506.646A734C.000036D4",
-        "date": "2023-05-21T19:38:52.4499764",
-        "paymentStatus": "Authorised"
+        "BusinessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419"
+        "TranRef": "TST2314101600398",
+        "TranType": "Refund",
+        "OrderId": "22435634534",
+        "Description": "This is a description",
+        "Currency": "OMR",
+        "Amount": "1.5",
+        "Callback": "https://yourcompany.com/callback"
+        "Trace": "PMNT0506.646A734C.000036D4",
+        "Date": "2023-05-21T16:45:00Z",
+        "PaymentStatus": "A",
+        "PaymentMessage": "Authorised",
+        "PrevTranRef": "TST2313501591268"
     }
 }
 ```
