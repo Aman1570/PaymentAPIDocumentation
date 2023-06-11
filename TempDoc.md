@@ -26,19 +26,19 @@ __`POST:`__ `/v1/payment/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| 'ApiKey' | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | orderId | body | Unique order id | 2254857641 |
 | orderDescription | body | Order description | - |
 | amount | body | Order amount in OMR | 2.456 |
-| callback | body | Callback url where we will POST transaction information | http://XYZCompany.com/callback |
+| callback | body | Callback url where we will POST transaction information | https://xyzCompany.com/callback |
 
 
 #### Sample Request (curl)
 ```
 curl --location --globoff '<<API base URL>>/payment/request' \
---header 'ApiKey: <your-api-key>' \
+--header 'ApiKey: XXXXXXXXXXXXXXXXXXXXXX' \
 --header 'Content-Type: application/json' \
 --data '{    
   "merchantId": XXXXXXXXXX,
@@ -68,7 +68,7 @@ var options = new RestClientOptions("<<API base URL>>")
 };
 var client = new RestClient(options);
 var request = new RestRequest("/v1/payment/request", Method.Post);
-request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXX");
 request.AddHeader("Content-Type", "application/json");
 var body = _body;
 request.AddStringBody(body, DataFormat.Json);
@@ -127,7 +127,7 @@ All possible `PaymentStatus` are explaind at the end of document.
 }
 ```
 
-### 2. Refund Request API
+### 2. Refund Request
 To initiate a refund API details are below. We will create a new transaction with type "Refund"
 and with tha same model of transaction a response will be sent back.
 
@@ -138,7 +138,7 @@ __`POST:`__ `/v1/refund/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| 'ApiKey' | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | transRef | body | Unique transaction referance which need to refund | TST2313501591268 |
@@ -148,7 +148,7 @@ __`POST:`__ `/v1/refund/request`
 #### Sample Request (curl)
 ```
 curl --location --globoff '<<API base URL>>/refund/request' \
---header 'ApiKey: <your-api-key>' \
+--header 'ApiKey: XXXXXXXXXXXXXXXXXXXXXX' \
 --header 'Content-Type: application/json' \
 --data '{
     "merchantId": XXXXXXXXXX,
@@ -173,7 +173,7 @@ var options = new RestClientOptions("<<API base URL>>")
 };
 var client = new RestClient(options);
 var request = new RestRequest("/v1/Refund/request", Method.Post);
-request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXX");
 request.AddHeader("Content-Type", "application/json");
 var body = _body
 request.AddStringBody(body, DataFormat.Json);
@@ -181,7 +181,7 @@ RestResponse response = await client.ExecuteAsync(request);
 Console.WriteLine(response.Content);
 ```
 
-#### Refund Response
+#### Sample Response
 ```
 {
     "message": "Success",
@@ -212,6 +212,181 @@ Console.WriteLine(response.Content);
     "body": null
 }
 ```
+
+### 3. Get Transaction
+To get transaction by referance Id, you can use below API endpoint.
+
+##### URL
+__`GET:`__ `/v1/transaction`
+
+##### Parameters
+
+| Parameter | Type | Description | Sample Value |
+| --------------- | ----------------- | ----------------- | ----------------- |
+| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| Content-Type | header | Content type | `application/json` |
+| merchantId | query string | Registered business Merchant Id | 999366903 |
+| transRef |  query string | Unique transaction referance | TST2313501591268 |
+
+#### Sample Request (curl)
+```
+curl --location '<<API base URL>>/v1/transaction?tranRef=TST2313501591268&merchantId=999366903' \
+--header 'ApiKey: XXXXXXXXXXXXXXXXXXXXXX'
+```
+
+#### Sample Request (C#)
+
+If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+```
+var options = new RestClientOptions("<<API base URL>>")
+{
+  MaxTimeout = -1,
+};
+var client = new RestClient(options);
+var request = new RestRequest("/v1/transaction?tranRef=TST2313501591268&merchantId=999366903", Method.Get);
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXX");
+RestResponse response = await client.ExecuteAsync(request);
+Console.WriteLine(response.Content);
+```
+
+#### Sample Response
+```
+{
+    "message": "Success",
+    "result": 200,
+    "body": {
+        "BusinessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419"
+        "TranRef": "TST2313501591268",
+        "TranType": "Sale",
+        "OrderId": "22435634534",
+        "Description": "This is a description",
+        "Currency": "OMR",
+        "Amount": "1.5",
+        "Callback": "https://yourcompany.com/callback"
+        "Trace": "PMNT0506.646A734C.000036D4",
+        "Date": "2023-05-21T16:45:00Z",
+        "PaymentStatus": "A",
+        "PaymentMessage": "Authorised",
+        "PrevTranRef": null
+    }
+}
+
+#### Error Response Model
+```
+{
+    "message": "Unauthorised",
+    "result": 401,
+    "body": null
+}
+```
+
+### 4. Get Transaction List
+To get multiple transactions, you can use below API endpoint.
+
+##### URL
+__`GET:`__ `/v1/transaction/list`
+
+##### Parameters
+
+| Parameter | Type | Description | Sample Value |
+| --------------- | ----------------- | ----------------- | ----------------- |
+| ApiKey | header | Registered business api key | F0E3200X-28Z0-1DG3-9002-K65270W8259A | 
+| Content-Type | header | Content type | `application/json` |
+| merchantId | query string | Registered business Merchant Id | 999366903 |
+| type |  query string | Transaction type i.e., Sale,Refund. You can provide both comma separated | TST2313501591268 |
+| MaxSize | query string | Maximum records in one response page | 50 |
+| MinSize | query string | Minimum records in one response page | 2 |
+| MinPage | query string | Page number to be fetched | 1 |
+
+#### Sample Request (curl)
+```
+curl --location '<<API base URL>>/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale&maxsize=50&minsize=5&minpage=1' \
+--header 'ApiKey: XXXXXXXXXXXXXXXXXXXXXX'
+```
+
+#### Sample Request (C#)
+
+If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+```
+var options = new RestClientOptions("<<API base URL>>")
+{
+  MaxTimeout = -1,
+};
+var client = new RestClient(options);
+var request = new RestRequest("/v1/transaction/list?tranRef=TST2313501591268&merchantId=999366903&type=sale,refund&maxsize=50&minsize=5&minpage=1", Method.Get);
+request.AddHeader("ApiKey", "XXXXXXXXXXXXXXXXXXXXXX");
+RestResponse response = await client.ExecuteAsync(request);
+Console.WriteLine(response.Content);
+```
+
+#### Sample Response
+```
+{
+    "message": "Success",
+    "result": 200,
+    "body": {
+        "totalCount": 15,
+        "data": [
+            {
+                "tranRef": "TST2316201626708",
+                "tranType": "Sale",
+                "orderId": "12345678",
+                "businessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419",
+                "description": "This is a description",
+                "currency": "OMR",
+                "amount": "15.000",
+                "callback": "https://yourcompany.com/callback",
+                "trace": "PMNT0205.142664B5.00005BC8",
+                "date": "2023-06-11T18:38:45.5306171",
+                "paymentStatus": "D",
+                "paymentMessage": "Card security code (CVV) mismatch",
+                "prevTranRef": null
+            },
+            {
+                "tranRef": "TST2316201626677",
+                "tranType": "Sale",
+                "orderId": "17945689",
+                "businessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419",
+                "description": "This is a description",
+                "currency": "OMR",
+                "amount": "2.456",
+                "callback": "https://yourcompany.com/callback",
+                "trace": "PMKT0506.6482FA2F.0010595C",
+                "date": "2023-06-11T16:45:35.4552097",
+                "paymentStatus": "A",
+                "paymentMessage": "Authorised",
+                "prevTranRef": null
+            },
+            {
+                "tranRef": "TST2313501591268",
+                "tranType": "Refund",
+                "orderId": "0000",
+                "businessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419",
+                "description": "This is a description",
+                "currency": "OMR",
+                "amount": "1",
+                "callback": null,
+                "trace": "PMNT0106.647CF265.000032DC",
+                "date": "2023-06-04T20:47:01.6812138",
+                "paymentStatus": "E",
+                "paymentMessage": "Amount greater than available balance",
+                "prevTranRef": "TST2315201613740"
+            }
+        ]
+    }
+}
+```
+
+
+#### Error Response Model
+```
+{
+    "message": "Unauthorised",
+    "result": 401,
+    "body": null
+}
+```
+
 
 ## Payment Staus
  Below are the possbile statuses for any transaction i.e., `Request`, `Refund`
