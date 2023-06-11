@@ -8,7 +8,7 @@ The API base URL is: https://payment.telypay.com
 Before you start integration, you need to have your API key and Merchant ID which is available once you register as a business at https://invoice.telypay.com. After registration, you can copy your API key and Merchant ID from the developer menu.
 
 ## EndPoints
-### 1. Payment Request (POST)
+### 1. Payment Request
 To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide redirectUrl to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided __callback__ url automatically.
 
 | URL | Type | Header | Body |
@@ -74,22 +74,29 @@ Console.WriteLine(response.Content);
 }
 ```
 
-Once you got the response, you need to redirect the user on __redirectUrl__ as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your callback Url
+Once you got the response, you need to redirect the user on __redirectUrl__ as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your callback Url. Your call back url must be a POST url.
 
 #### Transaction Response
 ```
 {
+    "BusinessId": "626B3C9E-298C-4E2D-A8A5-CE39542CD419"
     "TranRef": "TST2313501591268",
     "TranType": "Sale",
     "OrderId": "your unique order ref",
     "Description": "This is a description",
     "Currency": "OMR",
     "Amount": "1.5",
+    "Callback": "https://yourcompany.com/callback"
     "Trace": "PMNT0505.646A6D95.000036QQ",
     "Date": "2023-05-21T14:30:00Z",
-    "PaymentStatus": "Authorised"
+    "PaymentStatus": "A",
+    "PaymentMessage": "Authorised",
+    "PrevTranRef": null
 }
 ```
+
+All possible PaymentStatus are explaind at the end of document.
+
 
 #### Error Response Model
 ```
