@@ -1,6 +1,6 @@
 # TelyPay Payment API Documentation V1
 ## Introduction
-Welcome to TelyPay's Payment API documentation. This guide is intended for developers who are looking to integrate TelyPay's payment gateway into their applications. TelyPay offers a straightforward, robust and secure method for processing transactions.
+Welcome to TelyPay's Payment API documentation. This guide is intended for developers who are looking to integrate TelyPay's payment gateway into their applications. TelyPay offers a straightforward, robust, and secure method for processing transactions.
 
 The API base URL is: https://payment.telypay.com
 
@@ -14,10 +14,10 @@ We are providing different endpoints to communicate with our payment gateway.
 | 1  | Payment Request | __`POST:`__ `/v1/payment/request` |
 | 2  | Payment Refund | __`POST:`__ `/v1/refund/request` |
 | 3  | Get Transaction by Id | __`GET:`__ `/v1/transaction` |
-| 4  | Get Transsaction List | __`GET:`__ `/v1/transaction/list` |
+| 4  | Get Transaction List | __`GET:`__ `/v1/transaction/list` |
 
 ### 1. Payment Request
-To initiate a payment request, you need to call below endpoint. If request initiate successflly, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to transaction, where user will provide the card information. When user will complete the the transaction, we will POST you the respons of transaction on your provided `callback` url automatically.
+To initiate a payment request, you need to call the endpoint below. If the request initiates successfully, in the response we will provide `redirectUrl` to which you need to redirect the user to proceed to the transaction, where the user will provide the card information. When the user completes the transaction, we will POST you the response of the transaction on your provided `callback` URL automatically.
 
 ##### URL
 __`POST:`__ `/v1/payment/request`
@@ -26,13 +26,13 @@ __`POST:`__ `/v1/payment/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
+| ApiKey | header | Registered business API key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
 | orderId | body | Unique order id | 2254857641 |
 | orderDescription | body | Order description | - |
 | amount | body | Order amount in OMR | 2.456 |
-| callback | body | Callback url where we will POST transaction information | https://xyzCompany.com/callback |
+| callback | body | Callback URL where we will POST transaction information | https://xyzCompany.com/callback |
 
 
 #### Sample Request (curl)
@@ -51,7 +51,7 @@ curl --location --globoff '<<API base URL>>/payment/request' \
 
 #### Sample Request (C#)
 
-If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+If you are integrating in C#, You need to install __RestSharp__ nuget package in your project.
 
 ```
 string _body = @"{" 
@@ -84,7 +84,7 @@ Console.WriteLine(response.Content);
     "result": 200,
     "body": {
         "tranRef": "TST2313501591268",
-        "orderId": "your unique order ref",
+        "orderId": "Your unique order ref",
         "orderDescription": "Ths is a description",
         "amount": "1.500",
         "callback": "https://yourcompany.com/callback",
@@ -94,7 +94,9 @@ Console.WriteLine(response.Content);
 }
 ```
 
-Once you got the response, you need to redirect the user on `redirectUrl` as received in response, which is actualy the payment page, once redirected, we will __POST__ the transaction response (model as below) to your `callback` Url. Your call back url must be a POST url.
+Once you get the response, you need to redirect the user on `redirectUrl` as received in response, which is actually the payment page, once redirected, we will __POST__ the transaction response (model as below) to your `callback` URL. Your call-back URL must be a POST URL.
+
+It is important to save the `tranRef` value received in the response for future reference. The `tranRef` serves as a unique identifier for the transaction and will be required in case a refund needs to be processed.  
 
 #### Transaction Response
 ```
@@ -115,7 +117,7 @@ Once you got the response, you need to redirect the user on `redirectUrl` as rec
 }
 ```
 
-All possible `PaymentStatus` are explaind at the end of document.
+All possible `PaymentStatus` are explained at the end of the document.
 
 
 #### Error Response Model
@@ -128,8 +130,8 @@ All possible `PaymentStatus` are explaind at the end of document.
 ```
 
 ### 2. Refund Request
-To initiate a refund API details are below. We will create a new transaction with type "Refund"
-and with tha same model of transaction a response will be sent back.
+To initiate a refund, API details are below. We will create a new transaction with the type "Refund"
+and with the same model of the transaction, a response will be sent back.
 
 ##### URL
 __`POST:`__ `/v1/refund/request`
@@ -138,10 +140,10 @@ __`POST:`__ `/v1/refund/request`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
+| ApiKey | header | Registered business API key | TP-SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | body | Registered business Merchant Id | 999366903 |
-| transRef | body | Unique transaction referance which need to refund | TST2313501591268 |
+| transRef | body | Unique transaction reference which need to refund | TST2313501591268 |
 | amount | body | Order amount in OMR | 2.456 |
 
 
@@ -159,7 +161,7 @@ curl --location --globoff '<<API base URL>>/refund/request' \
 
 #### Sample Request (C#)
 
-If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+If you are integrating with C#, you need to install __RestSharp__ nuget package in your project.
 ```
 string _body = @"{" 
 + @"    ""merchantId"": XXXXXXXXXX,
@@ -214,7 +216,7 @@ Console.WriteLine(response.Content);
 ```
 
 ### 3. Get Transaction
-To get transaction by referance Id, you can use below API endpoint.
+To get transaction by reference Id, you can use below API endpoint.
 
 ##### URL
 __`GET:`__ `/v1/transaction`
@@ -223,10 +225,10 @@ __`GET:`__ `/v1/transaction`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
+| ApiKey | header | Registered business API key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | query string | Registered business Merchant Id | 999366903 |
-| transRef |  query string | Unique transaction referance | TST2313501591268 |
+| transRef | query string | Unique transaction reference | TST2313501591268 |
 
 #### Sample Request (curl)
 ```
@@ -236,7 +238,7 @@ curl --location '<<API base URL>>/v1/transaction?tranRef=TST2313501591268&mercha
 
 #### Sample Request (C#)
 
-If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+If you are integrating with C#, you need to install __RestSharp__ nuget package in your project.
 ```
 var options = new RestClientOptions("<<API base URL>>")
 {
@@ -291,10 +293,10 @@ __`GET:`__ `/v1/transaction/list`
 
 | Parameter | Type | Description | Sample Value |
 | --------------- | ----------------- | ----------------- | ----------------- |
-| ApiKey | header | Registered business api key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
+| ApiKey | header | Registered business API key | SK799J6DX62095B4827F6D96F0C3S9D4 | 
 | Content-Type | header | Content type | `application/json` |
 | merchantId | query string | Registered business Merchant Id | 999366903 |
-| type |  query string | Transaction type i.e., Sale,Refund. You can provide both comma separated | TST2313501591268 |
+| type | query string | Transaction type i.e., Sale, Refund. You can provide both comma separated | `sale,refund` |
 | MaxSize | query string | Maximum records in one response page | 50 |
 | MinSize | query string | Minimum records in one response page | 2 |
 | MinPage | query string | Page number to be fetched | 1 |
@@ -307,7 +309,7 @@ curl --location '<<API base URL>>/v1/transaction/list?tranRef=TST2313501591268&m
 
 #### Sample Request (C#)
 
-If you are integrating in C#, You need to install __RestSharp__ nuget packege in you project.
+If you are integrating with C#, you need to install __RestSharp__ nuget package in your project.
 ```
 var options = new RestClientOptions("<<API base URL>>")
 {
@@ -390,7 +392,7 @@ Console.WriteLine(response.Content);
 
 
 ## Payment Staus
- Below are the possbile statuses for any transaction i.e., `Request`, `Refund`
+ Below are the possible statuses for any transaction i.e., `Request`, `Refund`
 
 | PaymentStatus | Description |
 | --------------| -------------- |
@@ -411,7 +413,7 @@ We are providing a test VISA Card as below to test the integration with TelyPay 
 
 
 ## Contact Us
-For any inquiries or assistance regarding our API, we are dedicated to providing prompt and reliable support. Our team of experts is readily available to address your questions, offer technical guidance, and help troubleshoot any issues you may encounter. Please feel free to reach out to our dedicated support contact via email at support@telypay.com. We value your feedback and are committed to ensuring a seamless and successful integration of our API into your applications. Your satisfaction is our priority, and we strive to deliver exceptional support to empower your development journey.
+For any inquiries or assistance regarding our API, we are dedicated to providing prompt and reliable support. Our team of experts is readily available to address your questions, offer technical guidance, and help troubleshoot any issues you may encounter. Please feel free to reach out to our dedicated support contact via email at techsupport@telypay.com or phone at 0096893614406. We value your feedback and are committed to ensuring a seamless and successful integration of our API into your applications. Your satisfaction is our priority, and we strive to deliver exceptional support to empower your development journey.
 
 
 Happy Coding :)
